@@ -1,98 +1,110 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
-
-import { HelloWave } from '@/components/hello-wave';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { Link } from 'expo-router';
-
+import React from 'react';
+import {
+StyleSheet,
+View,
+Text,
+Image,
+TouchableOpacity,
+ScrollView // Usando ScrollView para garantir que caiba em telas menores
+} from 'react-native';
 export default function HomeScreen() {
-  return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12',
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <Link href="/modal">
-          <Link.Trigger>
-            <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-          </Link.Trigger>
-          <Link.Preview />
-          <Link.Menu>
-            <Link.MenuAction title="Action" icon="cube" onPress={() => alert('Action pressed')} />
-            <Link.MenuAction
-              title="Share"
-              icon="square.and.arrow.up"
-              onPress={() => alert('Share pressed')}
-            />
-            <Link.Menu title="More" icon="ellipsis">
-              <Link.MenuAction
-                title="Delete"
-                icon="trash"
-                destructive
-                onPress={() => alert('Delete pressed')}
-              />
-            </Link.Menu>
-          </Link.Menu>
-        </Link>
+return (
+<ScrollView style={styles.container}>
+{/* 1. Imagem do Topo */}
+<Image
+// O caminho da imagem conforme você especificou
+source={require('../../assets/images/praia.jpg')}
+style={styles.headerImage}
+/>
+{/* 2. Títulos */}
+<View style={styles.titleContainer}>
+<Text style={styles.title}>Guia de Praias</Text>
+<Text style={styles.subtitle}>Planeje sua Viagem</Text>
+</View>
+{/* 3. Grid de Botões */}
+<View style={styles.gridContainer}>
+{/* Linha 1 */}
+<TouchableOpacity style={[styles.gridButton, styles.btnNordeste]}>
+<Text style={styles.buttonText}>Nordeste</Text>
+</TouchableOpacity>
+<TouchableOpacity style={[styles.gridButton, styles.btnSP]}>
+<Text style={styles.buttonText}>São Paulo</Text>
+</TouchableOpacity>
+{/* Linha 2 */}
+<TouchableOpacity style={[styles.gridButton, styles.btnRJ]}>
+<Text style={styles.buttonText}>Rio de Janeiro</Text>
+</TouchableOpacity>
+<TouchableOpacity style={[styles.gridButton, styles.btnInter]}>
+<Text style={styles.buttonText}>Internacional</Text>
+</TouchableOpacity>
+</View>
+</ScrollView>
+);
 
-        <ThemedText>
-          {`Tap the Explore tab to learn more about what's included in this starter app.`}
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          {`When you're ready, run `}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
-  );
 }
-
+// Estilos
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
-  },
+container: {
+flex: 1,
+backgroundColor: '#FFFFFF', // Fundo branco
+},
+headerImage: {
+width: '100%',
+height: 250, // Você pode ajustar essa altura
+resizeMode: 'cover',
+},
+titleContainer: {
+alignItems: 'center', // Centraliza os textos
+marginVertical: 20, // Espaçamento vertical
+},
+title: {
+fontSize: 28,
+fontWeight: 'bold',
+color: '#0055D4', // Azul escuro do título
+},
+subtitle: {
+fontSize: 16,
+color: '#20C0C0', // Ciano/Verde-água do subtítulo
+marginTop: 4,
+},
+gridContainer: {
+flexDirection: 'row', // Organiza os filhos lado a lado
+flexWrap: 'wrap', // Permite que os itens quebrem para a próxima linha
+justifyContent: 'center', // Centraliza os botões no container
+paddingHorizontal: 10, // Pequeno preenchimento nas laterais
+},
+gridButton: {
+width: '46%', // Quase metade da tela, para caber 2 por linha
+height: 120,
+borderRadius: 16, // Bordas arredondadas
+margin: '2%', // Espaçamento entre os botões
+justifyContent: 'center', // Centraliza o texto verticalmente
+alignItems: 'center', // Centraliza o texto horizontalmente
+// Sombra leve (opcional, mas ajuda na aparência)
+elevation: 4,
+shadowColor: '#000',
+shadowOffset: { width: 0, height: 2 },
+shadowOpacity: 0.1,
+shadowRadius: 3,
+},
+
+buttonText: {
+color: '#FFFFFF',
+fontSize: 16,
+fontWeight: 'bold',
+textAlign: 'center',
+},
+// Cores específicas dos botões (baseadas no seu design)
+btnNordeste: {
+backgroundColor: '#005FFF',
+},
+btnSP: {
+backgroundColor: '#2CE0C3',
+},
+btnRJ: {
+backgroundColor: '#3D4A9B',
+},
+btnInter: {
+backgroundColor: '#6EB1E1',
+},
 });

@@ -1,112 +1,109 @@
-import { Image } from 'expo-image';
-import { Platform, StyleSheet } from 'react-native';
+import React from 'react';
+import {
+StyleSheet,
+View,
+Text,
+Image,
+ScrollView, // Usando ScrollView para a lista
+TouchableOpacity
+} from 'react-native';
+// --- Dados das Praias ---
+// É uma boa prática separar os dados da sua UI
+const praiasData = [
+{
+id: 1,
+nome: 'Bertioga',
+local: 'São Paulo',
+// Caminho relativo da pasta app/(tabs)/ para assets/images/
+imagem: require('../../assets/images/bertioga.jpeg'),
+link: '/bertioga', // Para usar na navegação depois
+},
+{
+id: 2,
+nome: 'Maragogi',
+local: 'Nordeste',
+imagem: require('../../assets/images/maragogi.jpg'),
+link: '/maragogi',
+},
+{
+id: 3,
+nome: 'Arraial do Cabo',
+local: 'Rio de Janeiro',
+imagem: require('../../assets/images/arraial do cabo.jpg'),
+link: '/arraial',
+},
+{
+id: 4,
+nome: 'San Blas',
+local: 'Internacional',
+imagem: require('../../assets/images/san blas.jpg'),
+link: '/sanblas',
+},
+];
+// --- O Componente da Tela ---
+export default function ExploreScreen() {
+// Função (ainda vazia) que usaremos para navegar
 
-import { Collapsible } from '@/components/ui/collapsible';
-import { ExternalLink } from '@/components/external-link';
-import ParallaxScrollView from '@/components/parallax-scroll-view';
-import { ThemedText } from '@/components/themed-text';
-import { ThemedView } from '@/components/themed-view';
-import { IconSymbol } from '@/components/ui/icon-symbol';
-import { Fonts } from '@/constants/theme';
-
-export default function TabTwoScreen() {
-  return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#D0D0D0', dark: '#353636' }}
-      headerImage={
-        <IconSymbol
-          size={310}
-          color="#808080"
-          name="chevron.left.forwardslash.chevron.right"
-          style={styles.headerImage}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText
-          type="title"
-          style={{
-            fontFamily: Fonts.rounded,
-          }}>
-          Explore
-        </ThemedText>
-      </ThemedView>
-      <ThemedText>This app includes example code to help you get started.</ThemedText>
-      <Collapsible title="File-based routing">
-        <ThemedText>
-          This app has two screens:{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> and{' '}
-          <ThemedText type="defaultSemiBold">app/(tabs)/explore.tsx</ThemedText>
-        </ThemedText>
-        <ThemedText>
-          The layout file in <ThemedText type="defaultSemiBold">app/(tabs)/_layout.tsx</ThemedText>{' '}
-          sets up the tab navigator.
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/router/introduction">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Android, iOS, and web support">
-        <ThemedText>
-          You can open this project on Android, iOS, and the web. To open the web version, press{' '}
-          <ThemedText type="defaultSemiBold">w</ThemedText> in the terminal running this project.
-        </ThemedText>
-      </Collapsible>
-      <Collapsible title="Images">
-        <ThemedText>
-          For static images, you can use the <ThemedText type="defaultSemiBold">@2x</ThemedText> and{' '}
-          <ThemedText type="defaultSemiBold">@3x</ThemedText> suffixes to provide files for
-          different screen densities
-        </ThemedText>
-        <Image
-          source={require('@/assets/images/react-logo.png')}
-          style={{ width: 100, height: 100, alignSelf: 'center' }}
-        />
-        <ExternalLink href="https://reactnative.dev/docs/images">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Light and dark mode components">
-        <ThemedText>
-          This template has light and dark mode support. The{' '}
-          <ThemedText type="defaultSemiBold">useColorScheme()</ThemedText> hook lets you inspect
-          what the user&apos;s current color scheme is, and so you can adjust UI colors accordingly.
-        </ThemedText>
-        <ExternalLink href="https://docs.expo.dev/develop/user-interface/color-themes/">
-          <ThemedText type="link">Learn more</ThemedText>
-        </ExternalLink>
-      </Collapsible>
-      <Collapsible title="Animations">
-        <ThemedText>
-          This template includes an example of an animated component. The{' '}
-          <ThemedText type="defaultSemiBold">components/HelloWave.tsx</ThemedText> component uses
-          the powerful{' '}
-          <ThemedText type="defaultSemiBold" style={{ fontFamily: Fonts.mono }}>
-            react-native-reanimated
-          </ThemedText>{' '}
-          library to create a waving hand animation.
-        </ThemedText>
-        {Platform.select({
-          ios: (
-            <ThemedText>
-              The <ThemedText type="defaultSemiBold">components/ParallaxScrollView.tsx</ThemedText>{' '}
-              component provides a parallax effect for the header image.
-            </ThemedText>
-          ),
-        })}
-      </Collapsible>
-    </ParallaxScrollView>
-  );
+const handleNavigation = (link: string) => {
+console.log(`Navegar para: ${link}`);
+// Aqui usaremos o hook `useRouter` do Expo Router quando formos linkar
+};
+return (
+<ScrollView style={styles.container}>
+{/* Mapeamos (loop) sobre os dados das praias
+e criamos um item de lista para cada um
+*/}
+{praiasData.map((praia) => (
+<TouchableOpacity
+key={praia.id}
+style={styles.itemContainer}
+onPress={() => handleNavigation(praia.link)}
+>
+{/* Imagem Circular */}
+<Image source={praia.imagem} style={styles.itemImage} />
+{/* Textos (Título e Subtítulo) */}
+<View style={styles.itemTextContainer}>
+<Text style={styles.itemTitle}>{praia.nome}</Text>
+<Text style={styles.itemSubtitle}>{praia.local}</Text>
+</View>
+</TouchableOpacity>
+))}
+</ScrollView>
+);
 }
-
+// --- Estilos ---
 const styles = StyleSheet.create({
-  headerImage: {
-    color: '#808080',
-    bottom: -90,
-    left: -35,
-    position: 'absolute',
-  },
-  titleContainer: {
-    flexDirection: 'row',
-    gap: 8,
-  },
+container: {
+flex: 1,
+backgroundColor: '#FFFFFF', // Fundo branco
+},
+itemContainer: {
+flexDirection: 'row', // Imagem ao lado do texto
+alignItems: 'center', // Alinha verticalmente
+paddingVertical: 15,
+paddingHorizontal: 20,
+// Linha separadora sutil, como no design
+borderBottomWidth: 1,
+borderBottomColor: '#F0F0F0', // Cor bem clara
+},
+itemImage: {
+width: 65,
+height: 65,
+
+borderRadius: 32.5, // Metade da largura/altura para ser um círculo
+marginRight: 15, // Espaço entre a imagem e o texto
+},
+itemTextContainer: {
+flex: 1, // Ocupa o espaço restante
+},
+itemTitle: {
+fontSize: 18,
+fontWeight: 'bold',
+color: '#004AAD', // Azul escuro do título
+},
+itemSubtitle: {
+fontSize: 14,
+color: '#20C0C0', // Ciano/Verde-água do subtítulo
+marginTop: 2,
+},
 });
