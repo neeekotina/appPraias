@@ -7,6 +7,7 @@ Image,
 ScrollView, // Usando ScrollView para a lista
 TouchableOpacity
 } from 'react-native';
+import { useRouter } from 'expo-router';
 // --- Dados das Praias ---
 // É uma boa prática separar os dados da sua UI
 const praiasData = [
@@ -42,10 +43,11 @@ link: '/sanblas',
 ];
 // --- O Componente da Tela ---
 export default function ExploreScreen() {
+    const router = useRouter();
 // Função (ainda vazia) que usaremos para navegar
 
 const handleNavigation = (link: string) => {
-console.log(`Navegar para: ${link}`);
+router.push(link);
 // Aqui usaremos o hook `useRouter` do Expo Router quando formos linkar
 };
 return (
